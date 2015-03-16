@@ -6,3 +6,11 @@ remove this comment if used
 remove this file if not
 
 */
+
+#footer.noTodos, #main.noTodos {
+	display: none;
+}
+
+#footer.hasTodos, #main.hasTodos {
+	display: block;
+ }
