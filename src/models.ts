@@ -80,4 +80,8 @@ export class Todos {
 	getAll(): Todo[] {
 		return this.todos.splice(0);
 	}
+
+	size(): number {
+		return this.todos.length;
+	}
 }

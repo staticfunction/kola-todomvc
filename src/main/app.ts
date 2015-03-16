@@ -6,7 +6,10 @@ import signals = require('kola-signals');
 import hooks = require('kola-hooks');
 
 import parent = require('../app');
+import models = require('../models');
+
 import Main = require('./views/Main');
+import Todo = require('./views/Todo');
 
 export interface Kontext extends parent.Kontext {
 
@@ -19,6 +22,7 @@ export class App extends kola.App<HTMLElement> {
 	onStart(): void {
 		this.main = new Main();
 		this.main.appendTo(this.startupOptions);
+
 	}
 
 	onStop(): void {
