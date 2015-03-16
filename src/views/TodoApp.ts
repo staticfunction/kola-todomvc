@@ -9,8 +9,11 @@ class TodoApp {
     constructor() {
         this.rootNodes = [];
         this.header = document.createElement('header');
+        this.header.setAttribute('id', 'header');
         this.main = document.createElement('section');
+        this.main.setAttribute('id', 'main');
         this.footer = document.createElement('footer');
+        this.footer.setAttribute('id', 'footer');
         this.rootNodes.push(this.header);
         this.rootNodes.push(this.main);
         this.rootNodes.push(this.footer);

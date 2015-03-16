@@ -16,13 +16,19 @@ export interface Kontext extends kola.Kontext {}
 
 export class TodoApp extends kola.App<HTMLElement> {
 
-	headerApp: header.App;
-	footerApp: footer.App;
-	mainApp: main.App;
+	headerApp;
+	footerApp;
+	mainApp;
 
 	todoView: TodoAppView;
 
 	onKontext(kontext: Kontext, opts?: HTMLElement): void {
+
+		kontext.setSignal('todo.add');
+		kontext.setSignal('todo.remove')
+		kontext.setSignal('todo.complete')
+		kontext.setSignal('todos.clear.completed');
+
 		kontext.setInstance('todos', () => {
 			return new models.Todos();
 		}).asSingleton();

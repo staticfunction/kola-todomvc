@@ -9,10 +9,12 @@ class Footer {
     constructor() {
         this.rootNodes = [];
         this.todoCount = document.createElement('span');
+        this.todoCount.setAttribute('id', 'todo-count');
         var n1 = document.createElement('strong');
         var n2 = document.createTextNode('0');
         var n3 = document.createTextNode(' item left');
         this.filters = document.createElement('ul');
+        this.filters.setAttribute('id', 'filters');
         var n5 = document.createElement('li');
         var n6 = document.createElement('a');
         n6.setAttribute('class', 'selected');
@@ -27,6 +29,7 @@ class Footer {
         n12.setAttribute('href', '#/completed');
         var n13 = document.createTextNode('Completed');
         this.clearCompleted = document.createElement('button');
+        this.clearCompleted.setAttribute('id', 'clear-completed');
         this.rootNodes.push(this.todoCount);
         this.todoCount.appendChild(n1);
         n1.appendChild(n2);

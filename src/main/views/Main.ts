@@ -8,11 +8,13 @@ class Main {
     constructor() {
         this.rootNodes = [];
         this.toggleAll = document.createElement('input');
+        this.toggleAll.setAttribute('id', 'toggle-all');
         this.toggleAll.setAttribute('type', 'checkbox');
         var n1 = document.createElement('label');
         n1.setAttribute('for', 'toggle-all');
         var n2 = document.createTextNode('Mark all as complete');
         this.todoList = document.createElement('ul');
+        this.todoList.setAttribute('id', 'todo-list');
         var n4 = document.createElement('li');
         n4.setAttribute('class', 'completed');
         var n5 = document.createElement('div');

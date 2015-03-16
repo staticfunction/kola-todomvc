@@ -9,6 +9,7 @@ class Header {
         var n0 = document.createElement('h1');
         var n1 = document.createTextNode('todos');
         this.newTodo = document.createElement('input');
+        this.newTodo.setAttribute('id', 'new-todo');
         this.newTodo.setAttribute('placeholder', 'What needs to be done?');
         this.newTodo.setAttribute('autofocus', '');
         this.rootNodes.push(n0);
