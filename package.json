@@ -1,6 +1,9 @@
 {
   "private": true,
   "dependencies": {
+    "kola": "0.1.0-rc3",
+    "kola-hooks": "0.0.3",
+    "kola-signals": "0.0.2",
     "todomvc-app-css": "^1.0.0",
     "todomvc-common": "^1.0.0"
   }
