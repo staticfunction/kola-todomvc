@@ -29,6 +29,10 @@ gulp.task('package', ['compile'], function() {
 		.pipe(gulp.dest('js'))
 })
 
+gulp.task('watch', ['package'], function() {
+	gulp.watch('src/**/*.ts', ['package']);
+})
+
 gulp.task('launch', function() {
 	gulp.src('')
 		.pipe(webserver({
@@ -37,4 +41,3 @@ gulp.task('launch', function() {
 			open: true
 		}))
 })
-
