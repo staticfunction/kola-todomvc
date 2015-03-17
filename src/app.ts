@@ -28,7 +28,10 @@ export class TodoApp extends kola.App<HTMLElement> {
 
 	onKontext(kontext: Kontext, opts?: HTMLElement): void {
 
-		kontext.setSignal('todo.add', hooks.executes([commands.addTodo]));
+		this.todoView = new TodoAppView();
+
+		kontext.setSignal('init', hooks.executes([commands.initialized, commands.setStateMainAndFooter]));
+		kontext.setSignal('todo.add', hooks.executes([commands.addTodo, commands.setStateMainAndFooter]));
 		kontext.setSignal('todo.remove')
 		kontext.setSignal('todo.complete')
 		kontext.setSignal('todos.clear.completed');
@@ -41,47 +44,35 @@ export class TodoApp extends kola.App<HTMLElement> {
 			return new models.Todo();
 		})
 
-		kontext.setInstance('view', () => {
-			return opts;
+		kontext.setInstance('view.footer', () => {
+			return this.todoView.footer;
 		}).asSingleton();
+
+		kontext.setInstance('view.main', () => {
+			return this.todoView.main;
+		}).asSingleton();
+
 
 		super.onKontext(kontext, opts);
 	}
 
 	onStart(): void {
-		this.todoView = new TodoAppView();
-		this.todoView.appendTo(this.startupOptions);
 
-		this.todos = <models.Todos>this.kontext.getInstance('todos');
+		this.todoView.appendTo(this.startupOptions);
 
 		this.headerApp = new header.App(this).start(this.todoView.header);
 		this.footerApp = new footer.App(this).start(this.todoView.footer);
 		this.mainApp = new main.App(this).start(this.todoView.main);
 
-		this.todosChanged = new signals.SignalListener(this.onTodosChange, this);
-		this.todos.onAddTodo.addListener(this.todosChanged);
-		this.todos.onRemoveTodo.addListener(this.todosChanged);
-
-		this.onTodosChange();
+		this.kontext.getSignal('init').dispatch();
 	}
 
-	onTodosChange(): void {
-		if(this.todos.size() > 0) {
-			this.todoView.footer.className = this.todoView.main.className = "hasTodos";
-		}
-		else {
-			this.todoView.footer.className = this.todoView.main.className = "noTodos";
-		}
-	}
 
 	onStop(): void {
 		this.todoView.remove();
 		this.headerApp.stop();
 		this.footerApp.stop();
 		this.mainApp.stop();
-
-		this.todos.onAddTodo.removeListener(this.todosChanged);
-		this.todos.onRemoveTodo.removeListener(this.todosChanged);
 	}
 }
 
