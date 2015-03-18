@@ -16,10 +16,10 @@ export interface Kontext extends parent.Kontext {
 export class App extends kola.App<HTMLElement> {
 
 	header: Header;
-	addTodo: signals.SignalDispatcher<models.Todo>;
+	addTodo: signals.Dispatcher<models.Todo>;
 
 	onKontext(kontext: Kontext) {
-		this.addTodo = <signals.SignalDispatcher<models.Todo>>kontext.getSignal('todo.add');
+		this.addTodo = <signals.Dispatcher<models.Todo>>kontext.getSignal('todo.add');
 	}
 
 	onStart(): void {

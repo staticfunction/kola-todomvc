@@ -17,14 +17,13 @@ export interface Kontext extends kola.Kontext {}
 
 export class TodoApp extends kola.App<HTMLElement> {
 
-	headerApp;
-	footerApp;
-	mainApp;
+	headerApp: header.App;
+	footerApp: footer.App;
+	mainApp: main.App;
 
 	todoView: TodoAppView;
 
 	todos: models.Todos;
-	todosChanged: signals.SignalListener<models.Todo>;
 
 	onKontext(kontext: Kontext, opts?: HTMLElement): void {
 
@@ -32,7 +31,8 @@ export class TodoApp extends kola.App<HTMLElement> {
 
 		kontext.setSignal('init', hooks.executes([commands.initialized, commands.setStateMainAndFooter]));
 		kontext.setSignal('todo.add', hooks.executes([commands.addTodo, commands.setStateMainAndFooter]));
-		kontext.setSignal('todo.remove')
+		kontext.setSignal('todo.remove', hooks.executes([commands.removeTodo, commands.setStateMainAndFooter]));
+
 		kontext.setSignal('todo.complete')
 		kontext.setSignal('todos.clear.completed');
 
@@ -52,7 +52,6 @@ export class TodoApp extends kola.App<HTMLElement> {
 			return this.todoView.main;
 		}).asSingleton();
 
-
 		super.onKontext(kontext, opts);
 	}
 
@@ -60,9 +59,9 @@ export class TodoApp extends kola.App<HTMLElement> {
 
 		this.todoView.appendTo(this.startupOptions);
 
-		this.headerApp = new header.App(this).start(this.todoView.header);
-		this.footerApp = new footer.App(this).start(this.todoView.footer);
-		this.mainApp = new main.App(this).start(this.todoView.main);
+		this.headerApp = <header.App> new header.App(this).start(this.todoView.header);
+		this.footerApp = <footer.App> new footer.App(this).start(this.todoView.footer);
+		this.mainApp = <main.App> new main.App(this).start(this.todoView.main);
 
 		this.kontext.getSignal('init').dispatch();
 	}

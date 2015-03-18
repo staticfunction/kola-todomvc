@@ -5,15 +5,15 @@ import signals = require('kola-signals');
 
 export class Todo {
 
-	onDescription: signals.SignalDispatcher<string>;
-	onCompleted: signals.SignalDispatcher<boolean>;
+	onDescription: signals.Dispatcher<string>;
+	onCompleted: signals.Dispatcher<boolean>;
 
 	private description: string;
 	private completed: boolean;
 
 	constructor() {
-		this.onDescription = new signals.SignalDispatcher();
-		this.onCompleted = new signals.SignalDispatcher();
+		this.onDescription = new signals.Dispatcher();
+		this.onCompleted = new signals.Dispatcher();
 	}
 
 	setDescription(value: string): void {
@@ -39,14 +39,14 @@ export class Todo {
 
 export class Todos {
 
-	onAddTodo: signals.SignalDispatcher<Todo>;
-	onRemoveTodo: signals.SignalDispatcher<Todo>;
+	onAddTodo: signals.Dispatcher<Todo>;
+	onRemoveTodo: signals.Dispatcher<Todo>;
 
 	private todos: Todo[];
 
 	constructor() {
-		this.onAddTodo = new signals.SignalDispatcher();
-		this.onRemoveTodo = new signals.SignalDispatcher();
+		this.onAddTodo = new signals.Dispatcher();
+		this.onRemoveTodo = new signals.Dispatcher();
 		this.todos = [];
 	}
 

@@ -7,9 +7,9 @@ import hooks = require('kola-hooks');
 
 import parent = require('../app');
 import models = require('../models');
+import renderer = require('./renderer/app');
 
 import Main = require('./views/Main');
-import Todo = require('./views/Todo');
 
 export interface Kontext extends parent.Kontext {
 
@@ -19,8 +19,8 @@ export class App extends kola.App<HTMLElement> {
 
 	main: Main;
 	todos: models.Todos;
-	onTodoAdd: signals.SignalListener<models.Todo>;
-	onTodoRemove: signals.SignalListener<models.Todo>;
+	onTodoAdd: signals.Listener<models.Todo>;
+	onTodoRemove: signals.Listener<models.Todo>;
 
 	onStart(): void {
 		this.main = new Main();
@@ -28,29 +28,24 @@ export class App extends kola.App<HTMLElement> {
 
 		this.todos = <models.Todos>this.kontext.getInstance('todos');
 
-		this.onTodoAdd = new signals.SignalListener(this.todoAdded, this);
-		this.todos.onAddTodo.addListener(this.onTodoAdd);
-
-		this.onTodoRemove = new signals.SignalListener(this.todoRemoved, this);
-		this.todos.onRemoveTodo.addListener(this.onTodoRemove);
-
+		this.onTodoAdd = this.todos.onAddTodo.listen(this.todoAdded, this);
+		this.onTodoRemove = this.todos.onRemoveTodo.listen(this.todoRemoved, this);
 
 	}
 
 	todoAdded(value: models.Todo): void {
-		var todo = new Todo();
-		todo.description.textContent = value.getDescription();
-		todo.edit.value = value.getDescription();
-		todo.completed.checked = value.getCompleted();
-		todo.appendTo(this.main.todoList);
+		var todoRenderer = new renderer.App(this);
+		todoRenderer.start({todo: value, container: this.main.todoList});
 	}
 
 	todoRemoved(value: models.Todo): void {
-
 	}
 
 
 	onStop(): void {
+
+		this.onTodoAdd.unlisten();
+		this.onTodoRemove.unlisten();
 		this.main.remove();
 	}
 }

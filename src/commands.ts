@@ -5,12 +5,20 @@ import models = require('./models');
 import app = require('./app');
 
 export function initialized(payload: any, kontext:app.Kontext): void {
-
 }
 
 export function addTodo(payload: models.Todo, kontext: app.Kontext): void {
 	var todos = <models.Todos>kontext.getInstance('todos');
 	todos.addTodo(payload);
+}
+
+export function removeTodo(payload: models.Todo, kontext: app.Kontext): void {
+	var todos = <models.Todos>kontext.getInstance('todos');
+	todos.removeTodo(payload);
+}
+
+export function completeTodo(payload: models.Todo, kontext: app.Kontext): void {
+	payload.setCompleted(true);
 }
 
 export function setStateMainAndFooter(payload: any, kontext: app.Kontext): void {
